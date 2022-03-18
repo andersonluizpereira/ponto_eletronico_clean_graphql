@@ -1,91 +1,77 @@
 import { Usuario } from '@/domain/entities'
 
 describe('Usuario', () => {
+  let usuario: Usuario
+
+  beforeAll(() => {
+    usuario = new Usuario('any_id', 'any_nome', '839.435.452-10', '286833931', new Date(), '11965928203', 'any_token_acesso', true, 'any_email')
+  })
+
   it('should created usuario', () => {
-    const usuario = new Usuario()
     expect(usuario).toBeTruthy()
   })
 
   it('should created usuario with id', () => {
-    const usuario = new Usuario('id')
-    expect(usuario.id).toBe('id')
+    expect(usuario.id).toBe('any_id')
   })
 
   it('should created usuario with nome', () => {
-    const usuario = new Usuario('', 'nome')
-    expect(usuario.nome).toBe('nome')
+    expect(usuario.nome).toBe('any_nome')
   })
 
   it('should created usuario with cpf', () => {
-    const usuario = new Usuario('', '', 'cpf')
-    expect(usuario.cpf).toBe('cpf')
+    expect(usuario.cpf?.value).toBe('839.435.452-10')
   })
 
   it('should created usuario with rg', () => {
-    const usuario = new Usuario('', '', '', 'rg')
-    expect(usuario.rg).toBe('rg')
+    expect(usuario.rg).toBe('286833931')
   })
 
   it('should created usuario with dataNascimento', () => {
-    const usuario = new Usuario('', '', '', '', new Date())
     expect(usuario.dataNascimento).toBeInstanceOf(Date)
   })
 
   it('should created usuario with telefone', () => {
-    const usuario = new Usuario('', '', '', '', new Date(), 'telefone')
-    expect(usuario.telefone).toBe('telefone')
+    expect(usuario.telefone).toBe('11965928203')
   })
 
   it('should created usuario with tokenAcesso', () => {
-    const usuario = new Usuario('', '', '', '', new Date(), '', 'tokenAcesso')
-    expect(usuario.tokenAcesso).toBe('tokenAcesso')
+    expect(usuario.tokenAcesso).toBe('any_token_acesso')
   })
 
   it('should created usuario with estaAtivo', () => {
-    const usuario = new Usuario('', '', '', '', new Date(), '', '', true)
     expect(usuario.estaAtivo).toBeTruthy()
   })
 
   it('should created usuario with email', () => {
-    const usuario = new Usuario('', '', '', '', new Date(), '', '', true, 'email')
-    expect(usuario.email).toBe('email')
+    expect(usuario.email).toBe('any_email')
   })
 
   it('should created usuario with all properties', () => {
-    const usuario = new Usuario('id', 'nome', 'cpf', 'rg', new Date(), 'telefone', 'tokenAcesso', true, 'email')
-    expect(usuario.id).toBe('id')
-    expect(usuario.nome).toBe('nome')
-    expect(usuario.cpf).toBe('cpf')
-    expect(usuario.rg).toBe('rg')
+    expect(usuario.id).toBe('any_id')
+    expect(usuario.nome).toBe('any_nome')
+    expect(usuario.cpf?.value).toBe('839.435.452-10')
+    expect(usuario.rg).toBe('286833931')
     expect(usuario.dataNascimento).toBeInstanceOf(Date)
-    expect(usuario.telefone).toBe('telefone')
-    expect(usuario.tokenAcesso).toBe('tokenAcesso')
+    expect(usuario.telefone).toBe('11965928203')
+    expect(usuario.tokenAcesso).toBe('any_token_acesso')
     expect(usuario.estaAtivo).toBeTruthy()
-    expect(usuario.email).toBe('email')
+    expect(usuario.email).toBe('any_email')
   })
 
   it('should oUsuarioFazAniversarioHoje', () => {
-    const usuario = new Usuario('', '', '', '', new Date(), '', '', true, 'email')
     expect(usuario.oUsuarioFazAniversarioHoje()).toBeTruthy()
   })
 
   it('should oUsuarioPossuiUmRGValido', () => {
-    const usuario = new Usuario('', '', '', '428214538', new Date(), '', '', true, 'email')
     expect(usuario.oUsuarioPossuiUmRGValido()).toBeTruthy()
   })
 
-  it('should oUsuarioPossuiUmCPFValido', () => {
-    const usuario = new Usuario('', '', '32282166833', '', new Date(), '', '', true, 'email')
-    expect(usuario.oUsuarioPossuiUmCPFValido()).toBeTruthy()
-  })
-
   it('should oUsuarioPossuiUmTelefoneValido', () => {
-    const usuario = new Usuario('', '', '', '', new Date(), '11965928203', '', true, 'email')
     expect(usuario.oUsuarioPossuiUmTelefoneValido()).toBeTruthy()
   })
 
   it('should enviarMensagemDeParabens', () => {
-    const usuario = new Usuario('', '', '', '', new Date(), '', '', true, 'email')
     expect(usuario.enviarMensagemDeParabens()).toBeTruthy()
   })
 })

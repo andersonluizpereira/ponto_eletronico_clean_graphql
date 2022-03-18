@@ -1,7 +1,9 @@
+import Cpf from '@/domain/entities/cpf'
+
 export class Usuario {
   id?: string
   nome?: string
-  cpf?: string
+  cpf?: Cpf
   rg?: string
   dataNascimento?: Date
   telefone?: string
@@ -14,7 +16,7 @@ export class Usuario {
     tokenAcesso?: string, estaAtivo?: boolean, email?: string) {
     this.id = id
     this.nome = nome
-    this.cpf = cpf
+    this.cpf = new Cpf(String(cpf))
     this.rg = rg
     this.dataNascimento = dataNascimento
     this.telefone = telefone
@@ -32,10 +34,6 @@ export class Usuario {
 
   oUsuarioPossuiUmRGValido (): boolean {
     return ((this.rg!).length > 0) && this.rg!.length === 9
-  }
-
-  oUsuarioPossuiUmCPFValido (): boolean {
-    return ((this.cpf!).length > 0) && this.cpf!.length === 11
   }
 
   enviarMensagemDeParabens (): any {
