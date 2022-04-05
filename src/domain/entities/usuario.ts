@@ -10,10 +10,12 @@ export class Usuario {
   tokenAcesso?: string
   estaAtivo?: boolean
   email?: string
+  password?: string
 
   constructor (id?: string, nome?: string, cpf?: string,
     rg?: string, dataNascimento?: Date, telefone?: string,
-    tokenAcesso?: string, estaAtivo?: boolean, email?: string) {
+    tokenAcesso?: string, estaAtivo?: boolean, email?: string,
+    password?: string) {
     this.id = id
     this.nome = nome
     this.cpf = new Cpf(String(cpf))
@@ -23,6 +25,7 @@ export class Usuario {
     this.tokenAcesso = tokenAcesso
     this.estaAtivo = estaAtivo
     this.email = email
+    this.password = password
   }
 
   oUsuarioFazAniversarioHoje (): boolean {
@@ -44,5 +47,19 @@ export class Usuario {
 
   oUsuarioPossuiUmTelefoneValido (): boolean {
     return ((this.telefone!).length > 0) && this.telefone!.length === 11
+  }
+
+  obterCampos (): any {
+    return {
+      nome: this.nome,
+      cpf: this.cpf?.value,
+      rg: this.rg,
+      dataNascimento: this.dataNascimento,
+      telefone: this.telefone,
+      tokenAcesso: this.tokenAcesso,
+      estaAtivo: this.estaAtivo,
+      email: this.email,
+      password: this.password
+    }
   }
 }

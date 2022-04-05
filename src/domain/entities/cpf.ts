@@ -6,13 +6,13 @@ export default class Cpf {
     this.value = value
   }
 
-  private validate (cpf: string): boolean {
+  private validate (cpf: String): boolean {
     if (!cpf) return false
-    cpf = this.clean(cpf)
-    if (!this.hasMinimumLength(cpf)) return false
-    if (this.isBlocked(cpf)) return false
-    const digit1 = this.calculateDigit(cpf, 10)
-    const digit2 = this.calculateDigit(cpf, 11)
+    cpf = this.clean(cpf.toString())
+    if (!this.hasMinimumLength(cpf.toString())) return false
+    if (this.isBlocked(cpf.toString())) return false
+    const digit1 = this.calculateDigit(cpf.toString(), 10)
+    const digit2 = this.calculateDigit(cpf.toString(), 11)
     const calculatedDigit = `${digit1}${digit2}`
     const actualDigit = cpf.slice(9)
     return actualDigit === calculatedDigit

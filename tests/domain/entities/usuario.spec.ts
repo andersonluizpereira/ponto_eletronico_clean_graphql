@@ -4,7 +4,7 @@ describe('Usuario', () => {
   let usuario: Usuario
 
   beforeAll(() => {
-    usuario = new Usuario('any_id', 'any_nome', '839.435.452-10', '286833931', new Date(), '11965928203', 'any_token_acesso', true, 'any_email')
+    usuario = new Usuario('any_id', 'any_nome', '839.435.452-10', '286833931', new Date('2022-04-05T20:19:33'), '11965928203', 'any_token_acesso', true, 'any_email', 'any_password')
   })
 
   it('should created usuario', () => {
@@ -47,6 +47,10 @@ describe('Usuario', () => {
     expect(usuario.email).toBe('any_email')
   })
 
+  it('should created usuario with password', () => {
+    expect(usuario.password).toBe('any_password')
+  })
+
   it('should created usuario with all properties', () => {
     expect(usuario.id).toBe('any_id')
     expect(usuario.nome).toBe('any_nome')
@@ -57,6 +61,7 @@ describe('Usuario', () => {
     expect(usuario.tokenAcesso).toBe('any_token_acesso')
     expect(usuario.estaAtivo).toBeTruthy()
     expect(usuario.email).toBe('any_email')
+    expect(usuario.password).toBe('any_password')
   })
 
   it('should oUsuarioFazAniversarioHoje', () => {
@@ -73,5 +78,9 @@ describe('Usuario', () => {
 
   it('should enviarMensagemDeParabens', () => {
     expect(usuario.enviarMensagemDeParabens()).toBeTruthy()
+  })
+
+  it('should obterCampos', () => {
+    expect(usuario.obterCampos()).toEqual({ nome: 'any_nome', cpf: '839.435.452-10', rg: '286833931', dataNascimento: new Date('2022-04-05T23:19:33.000Z'), telefone: '11965928203', tokenAcesso: 'any_token_acesso', estaAtivo: true, email: 'any_email', password: 'any_password' })
   })
 })

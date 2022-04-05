@@ -6,6 +6,10 @@ describe('CPF', () => {
     expect(cpf).toBeTruthy()
   })
 
+  it('Should validate cpf is invalid', function () {
+    expect(() => new Cpf('')).toThrow(new Error('CPF inválido'))
+  })
+
   it('Should tentar validate cpf invalid', function () {
     expect(() => new Cpf('123.456.789-99')).toThrow(new Error('CPF inválido'))
   })
