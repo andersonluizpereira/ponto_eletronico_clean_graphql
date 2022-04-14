@@ -1,2 +1,2 @@
-export * from './usuario'
-export * from './cpf'
+export * from '@/domain/entities/usuario'
+export * from '@/domain/entities/cpf'

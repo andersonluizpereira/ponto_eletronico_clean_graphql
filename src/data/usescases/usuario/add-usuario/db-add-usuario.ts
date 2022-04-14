@@ -1,6 +1,6 @@
 import { Hasher } from '@/data/protocols/criptography'
 import { AddUsuarioRepository, LoadUsuarioByEmailRepository } from '@/data/protocols/db'
-import { AddUsuarioParams, IncluirUsuario } from '@/domain/usecases'
+import { AddUsuarioInput, LoadUsuarioByEmailInput, LoadUsuarioOutput, IncluirUsuario } from '@/domain/usecases'
 
 export class DbAddUsuario implements IncluirUsuario {
   constructor (
@@ -9,13 +9,14 @@ export class DbAddUsuario implements IncluirUsuario {
     private readonly loadUsuarioByEmailRepository: LoadUsuarioByEmailRepository
   ) {}
 
-  async add (usuarioData: AddUsuarioParams): Promise<AddUsuarioParams | null> {
+  async add (usuarioData: AddUsuarioInput): Promise<LoadUsuarioOutput | null> {
     const { email, password } = usuarioData
-    const usuario = await this.loadUsuarioByEmailRepository.loadByEmail(email!)
+    const loadUsuarioByEmailInput: LoadUsuarioByEmailInput = { email } as any
+    const usuario = await this.loadUsuarioByEmailRepository.load(loadUsuarioByEmailInput)
     if (!usuario) {
       const hashedPassword = await this.hasher.hash(password!)
-      const newAccount = await this.addUsuarioRepository.add(Object.assign({}, usuarioData, { password: hashedPassword }))
-      return newAccount
+      const newUsuario = await this.addUsuarioRepository.add(Object.assign({}, usuarioData, { password: hashedPassword }))
+      return newUsuario
     }
     return null
   }

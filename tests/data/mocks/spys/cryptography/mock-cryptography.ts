@@ -36,7 +36,7 @@ export class EncrypterSpy implements Encrypter {
 
 export class DecrypterSpy implements Decrypter {
   plaintext = faker.internet.password()
-  ciphertext!: string
+  ciphertext?: string
 
   async decrypt (ciphertext: string): Promise<string> {
     this.ciphertext = ciphertext

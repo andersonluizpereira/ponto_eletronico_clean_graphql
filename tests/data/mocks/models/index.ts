@@ -1,2 +1,2 @@
-export * from './mock-usuario'
-export * from './test-helper'
+export * from '@/tests/data/mocks/models/mock-usuario'
+export * from '@/tests/data/mocks/models/test-helper'

@@ -1,3 +1,5 @@
+import { LogInput } from '@/domain/usecases'
+
 export interface LogErrorRepository {
-  logError: (stack: string) => Promise<void>
+  logError: (logInput: LogInput) => Promise<void>
 }

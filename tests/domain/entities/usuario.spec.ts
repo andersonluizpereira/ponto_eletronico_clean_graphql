@@ -2,9 +2,11 @@ import { Usuario } from '@/domain/entities'
 
 describe('Usuario', () => {
   let usuario: Usuario
+  let dateFake: Date
 
   beforeAll(() => {
-    usuario = new Usuario('any_id', 'any_nome', '839.435.452-10', '286833931', new Date('2022-04-05T20:19:33'), '11965928203', 'any_token_acesso', true, 'any_email', 'any_password')
+    dateFake = new Date(1985, 1, 22, 19, 19, 19, 19)
+    usuario = new Usuario('any_id', 'any_nome', '839.435.452-10', '286833931', dateFake, '11965928203', 'any_token_acesso', true, 'any_email', 'any_password')
   })
 
   it('should created usuario', () => {
@@ -64,7 +66,10 @@ describe('Usuario', () => {
     expect(usuario.password).toBe('any_password')
   })
 
-  it('should oUsuarioFazAniversarioHoje', () => {
+  it('should oUsuarioFazAniversarioHoje toBeTruthy', () => {
+    jest
+      .useFakeTimers()
+      .setSystemTime(dateFake.getTime())
     expect(usuario.oUsuarioFazAniversarioHoje()).toBeTruthy()
   })
 
@@ -81,6 +86,6 @@ describe('Usuario', () => {
   })
 
   it('should obterCampos', () => {
-    expect(usuario.obterCampos()).toEqual({ nome: 'any_nome', cpf: '839.435.452-10', rg: '286833931', dataNascimento: new Date('2022-04-05T23:19:33.000Z'), telefone: '11965928203', tokenAcesso: 'any_token_acesso', estaAtivo: true, email: 'any_email', password: 'any_password' })
+    expect(usuario.obterCampos()).toEqual({ nome: 'any_nome', cpf: '839.435.452-10', rg: '286833931', dataNascimento: new Date('1985-02-22T22:19:19.019Z'), telefone: '11965928203', tokenAcesso: 'any_token_acesso', estaAtivo: true, email: 'any_email', password: 'any_password' })
   })
 })

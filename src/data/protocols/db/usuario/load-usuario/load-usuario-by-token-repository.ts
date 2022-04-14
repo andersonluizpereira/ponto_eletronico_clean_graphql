@@ -1,5 +1,5 @@
-import { LoadUsuarioParams } from '@/domain/usecases/usuario/add-usuario/incluir-usuario'
+import { LoadUsuarioByTokenInput, LoadUsuarioOutput } from '@/domain/usecases'
 
 export interface LoadUsuarioByTokenRepository {
-  loadByToken: (token: string, role?: string) => Promise<LoadUsuarioParams | null>
+  load: (loadUsuarioByTokenInput: LoadUsuarioByTokenInput) => Promise<LoadUsuarioOutput | null>
 }

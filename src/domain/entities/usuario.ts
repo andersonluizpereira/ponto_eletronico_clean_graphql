@@ -39,7 +39,7 @@ export class Usuario {
     return ((this.rg!).length > 0) && this.rg!.length === 9
   }
 
-  enviarMensagemDeParabens (): any {
+  enviarMensagemDeParabens (): String | undefined {
     if (this.oUsuarioFazAniversarioHoje()) {
       return `Parabéns ${this.nome}! Você já faz um aniversário hoje!`
     }

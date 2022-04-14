@@ -1,5 +1,5 @@
-import { LoadUsuarioParams } from '@/domain/usecases/usuario/add-usuario/incluir-usuario'
+import { LoadUsuarioByEmailInput, LoadUsuarioByEmailOutput } from '@/domain/usecases'
 
 export interface LoadUsuarioByEmailRepository {
-  loadByEmail: (email: string) => Promise<LoadUsuarioParams | null>
+  load: (loadUsuarioByEmailInput: LoadUsuarioByEmailInput) => Promise<LoadUsuarioByEmailOutput | null>
 }
