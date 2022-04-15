@@ -9,5 +9,5 @@ export type UsuarioAuthenticationOutput = {
 }
 
 export interface UsuarioAuthentication {
-  auth: (authenticationParams: AuthenticationInput) => Promise<UsuarioAuthenticationOutput>
+  auth: (authenticationInput: AuthenticationInput) => Promise<UsuarioAuthenticationOutput | null>
 }

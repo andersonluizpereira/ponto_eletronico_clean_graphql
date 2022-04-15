@@ -1,7 +1,7 @@
 import faker from 'faker'
 import { AddUsuarioInput, LoadUsuarioOutput } from '@/domain/usecases/usuario/add-usuario/incluir-usuario'
 import { Usuario } from '@/domain/entities'
-import { UsuarioAuthenticationOutput } from '@/domain/usecases/usuario/usuario-authentication/authentication'
+import { AuthenticationInput, UsuarioAuthenticationOutput } from '@/domain/usecases/usuario/authentication-usuario/authentication-usuario'
 
 const obterCamposUsuario = new Usuario(
   faker.random.uuid(),
@@ -23,9 +23,16 @@ export const mockUsuarioModel = (): LoadUsuarioOutput | null => {
   return obterCamposUsuario
 }
 
-export const mockAuthenticationParams = (): UsuarioAuthenticationOutput | null => {
+export const mockAuthenticationOutput = (): UsuarioAuthenticationOutput => {
   return {
     tokenAcesso: obterCamposUsuario.tokenAcesso,
     nome: obterCamposUsuario.nome
+  }
+}
+
+export const mockAuthenticationIntput = (): AuthenticationInput => {
+  return {
+    email: obterCamposUsuario.email,
+    password: obterCamposUsuario.password
   }
 }
