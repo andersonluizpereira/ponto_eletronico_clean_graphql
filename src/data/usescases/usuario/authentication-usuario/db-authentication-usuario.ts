@@ -11,7 +11,7 @@ export class DbUsuarioAuthentication implements UsuarioAuthentication {
   ) {}
 
   async auth (authenticationInput: AuthenticationInput): Promise<UsuarioAuthenticationOutput | null> {
-    const usuario = await this.loadUsuarioByEmailRepository.load(authenticationInput)
+    const usuario = await this.loadUsuarioByEmailRepository.loadByEmail(authenticationInput)
     if (usuario) {
       const { id, nome } = usuario as any
       const isValid = await this.hashComparer.compare(authenticationInput.password, usuario.password as any)

@@ -41,7 +41,7 @@ describe('DbUsuarioAuthentication UseCase', () => {
 
   test('Should throw if LoadUsuarioByEmailRepository throws', async () => {
     const { sut, loadUsuarioByEmailRepositorySpy } = makeSut()
-    jest.spyOn(loadUsuarioByEmailRepositorySpy, 'load').mockImplementationOnce(throwError)
+    jest.spyOn(loadUsuarioByEmailRepositorySpy, 'loadByEmail').mockImplementationOnce(throwError)
     const promise = sut.auth(mockAuthenticationIntput())
     await expect(promise).rejects.toThrow()
   })
@@ -106,7 +106,7 @@ describe('DbUsuarioAuthentication UseCase', () => {
     const { sut, updateUsuarioAccessTokenRepositorySpy, loadUsuarioByEmailRepositorySpy, encrypterSpy } = makeSut()
     await sut.auth(mockAuthenticationIntput())
     expect(updateUsuarioAccessTokenRepositorySpy.id).toBe(loadUsuarioByEmailRepositorySpy.usuarioModel?.id)
-    expect(updateUsuarioAccessTokenRepositorySpy.token).toBe(encrypterSpy.ciphertext)
+    expect(updateUsuarioAccessTokenRepositorySpy.tokenAcesso).toBe(encrypterSpy.ciphertext)
   })
 
   test('Should throw if UpdateAccessTokenRepository throws', async () => {

@@ -3,7 +3,7 @@ import { Usuario } from '@/domain/entities'
 export type LoadUsuarioByTokenOutput = Usuario
 
 export type LoadUsuarioByTokenInput = {
-  accessToken: string
+  tokenAcesso: string
   role?: string
 }
 

@@ -12,7 +12,7 @@ export class DbAddUsuario implements IncluirUsuario {
   async add (usuarioData: AddUsuarioInput): Promise<LoadUsuarioOutput | null> {
     const { email, password } = usuarioData
     const loadUsuarioByEmailInput: LoadUsuarioByEmailInput = { email } as any
-    const usuario = await this.loadUsuarioByEmailRepository.load(loadUsuarioByEmailInput)
+    const usuario = await this.loadUsuarioByEmailRepository.loadByEmail(loadUsuarioByEmailInput)
     if (!usuario) {
       const hashedPassword = await this.hasher.hash(password!)
       const newUsuario = await this.addUsuarioRepository.add(Object.assign({}, usuarioData, { password: hashedPassword }))

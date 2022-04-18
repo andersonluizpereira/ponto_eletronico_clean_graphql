@@ -16,7 +16,7 @@ export class LoadUsuarioByEmailRepositorySpy implements LoadUsuarioByEmailReposi
   usuarioModel = mockUsuarioModel()
   email!: string
 
-  async load (loadUsuarioByEmailInput: LoadUsuarioByEmailInput): Promise<LoadUsuarioOutput | null> {
+  async loadByEmail (loadUsuarioByEmailInput: LoadUsuarioByEmailInput): Promise<LoadUsuarioOutput | null> {
     const { email } = loadUsuarioByEmailInput
     this.email = email
     return Promise.resolve(this.usuarioModel)
@@ -25,12 +25,12 @@ export class LoadUsuarioByEmailRepositorySpy implements LoadUsuarioByEmailReposi
 
 export class LoadUsuarioByTokenRepositorySpy implements LoadUsuarioByTokenRepository {
   usuarioModel = mockUsuarioModel()
-  accessToken!: string
+  tokenAcesso!: string
   role?: string
 
-  async load (loadUsuarioByTokenInput: LoadUsuarioByTokenInput): Promise<AddUsuarioInput | null> {
-    const { accessToken, role } = loadUsuarioByTokenInput
-    this.accessToken = accessToken
+  async loadByToken (loadUsuarioByTokenInput: LoadUsuarioByTokenInput): Promise<AddUsuarioInput | null> {
+    const { tokenAcesso, role } = loadUsuarioByTokenInput
+    this.tokenAcesso = tokenAcesso
     this.role = role
     return Promise.resolve(this.usuarioModel)
   }
@@ -38,11 +38,11 @@ export class LoadUsuarioByTokenRepositorySpy implements LoadUsuarioByTokenReposi
 
 export class UpdateUsuarioAccessTokenRepositorySpy implements UpdateUsuarioAccessTokenRepository {
   id!: string
-  token!: string
+  tokenAcesso!: string
 
   async update (updateUsuarioAccessTokenInput: UpdateUsuarioAccessTokenInput): Promise<void> {
     this.id = updateUsuarioAccessTokenInput.id
-    this.token = updateUsuarioAccessTokenInput.tokenAcesso
+    this.tokenAcesso = updateUsuarioAccessTokenInput.tokenAcesso
     return Promise.resolve()
   }
 }

@@ -8,16 +8,16 @@ export class DbLoadUsuarioByToken implements LoadUsuarioByTokenRepository {
   ) {
   }
 
-  async load (loadUsuarioByTokenInput: LoadUsuarioByTokenInput): Promise<LoadUsuarioOutput | null> {
-    const { accessToken } = loadUsuarioByTokenInput
+  async loadByToken (loadUsuarioByTokenInput: LoadUsuarioByTokenInput): Promise<LoadUsuarioOutput | null> {
+    const { tokenAcesso } = loadUsuarioByTokenInput
     let token: string
     try {
-      token = await this.decrypter.decrypt(accessToken) as any
+      token = await this.decrypter.decrypt(tokenAcesso) as any
     } catch (error) {
       return null
     }
     if (token) {
-      const account = await this.loadAccountByTokenRepository.load(loadUsuarioByTokenInput)
+      const account = await this.loadAccountByTokenRepository.loadByToken(loadUsuarioByTokenInput)
       if (account) {
         return account
       }

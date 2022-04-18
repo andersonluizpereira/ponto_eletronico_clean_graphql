@@ -7,5 +7,5 @@ export type LoadUsuarioByEmailInput = {
 }
 
 export interface LoadUsuarioByEmail {
-  load: (loadUsuarioByEmailInput: LoadUsuarioByEmailInput) => Promise<LoadUsuarioByEmailOutput>
+  loadByEmail: (loadUsuarioByEmailInput: LoadUsuarioByEmailInput) => Promise<LoadUsuarioByEmailOutput>
 }
