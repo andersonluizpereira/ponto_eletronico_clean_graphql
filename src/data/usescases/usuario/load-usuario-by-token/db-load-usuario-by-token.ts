@@ -17,9 +17,9 @@ export class DbLoadUsuarioByToken implements LoadUsuarioByTokenRepository {
       return null
     }
     if (token) {
-      const account = await this.loadAccountByTokenRepository.loadByToken(loadUsuarioByTokenInput)
-      if (account) {
-        return account
+      const usuario = await this.loadAccountByTokenRepository.loadByToken(loadUsuarioByTokenInput)
+      if (usuario) {
+        return usuario
       }
     }
     return null

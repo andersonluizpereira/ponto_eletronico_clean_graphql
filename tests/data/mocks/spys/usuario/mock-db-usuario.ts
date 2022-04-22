@@ -52,7 +52,7 @@ export class LoadUsuarioByTokenSpy implements LoadUsuarioByToken {
   tokenAcesso!: string
   role?: string
 
-  async load (loadUsuarioByTokenInput: LoadUsuarioByTokenInput): Promise<LoadUsuarioByTokenOutput | null> {
+  async loadByToken (loadUsuarioByTokenInput: LoadUsuarioByTokenInput): Promise<LoadUsuarioByTokenOutput | null> {
     this.tokenAcesso = loadUsuarioByTokenInput.tokenAcesso
     this.role = loadUsuarioByTokenInput.role
     return Promise.resolve(this.usuarioModel)

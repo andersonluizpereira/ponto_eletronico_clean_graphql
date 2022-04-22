@@ -12,8 +12,8 @@ export class UsuarioMongoRepository implements AddUsuarioRepository, LoadUsuario
 
   async loadByEmail (loadUsuarioByEmailInput: LoadUsuarioByEmailInput): Promise<LoadUsuarioByEmailOutput | null> {
     const accountCollection = await MongoHelper.getCollection('usuarios')
-    const account = await accountCollection.findOne(loadUsuarioByEmailInput)
-    return account && MongoHelper.map(account)
+    const usuario = await accountCollection.findOne(loadUsuarioByEmailInput)
+    return usuario && MongoHelper.map(usuario)
   }
 
   async update (updateUsuarioAccessTokenInput: UpdateUsuarioAccessTokenInput): Promise<void> {
