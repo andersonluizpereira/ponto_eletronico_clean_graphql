@@ -70,7 +70,7 @@ describe('UsuarioMongoRepository', () => {
       })
       const fakeAccount = res.ops[0]
       expect(fakeAccount.tokenAcesso).toBeFalsy()
-      const tokenAcesso = faker.random.uuid()
+      const tokenAcesso = faker.datatype.uuid()
       await sut.update({ id: fakeAccount._id, tokenAcesso })
       const usuario = await usuarioCollection.findOne({ _id: fakeAccount._id })
       expect(usuario).toBeTruthy()
@@ -82,13 +82,13 @@ describe('UsuarioMongoRepository', () => {
     let nome = faker.name.findName()
     let email = faker.internet.email()
     let password = faker.internet.password()
-    let tokenAcesso = faker.random.uuid()
+    let tokenAcesso = faker.datatype.uuid()
 
     beforeEach(() => {
       nome = faker.name.findName()
       email = faker.internet.email()
       password = faker.internet.password()
-      tokenAcesso = faker.random.uuid()
+      tokenAcesso = faker.datatype.uuid()
     })
 
     test('Should return an usuario on loadByToken without role', async () => {

@@ -28,7 +28,7 @@ let loadUsuarioByTokenInput: LoadUsuarioByTokenInput
 describe('DbLoadUsuarioByToken Usecase', () => {
   beforeEach(() => {
     loadUsuarioByTokenInput = {
-      tokenAcesso: faker.random.uuid(),
+      tokenAcesso: faker.datatype.uuid(),
       role: faker.random.word()
     }
     token = loadUsuarioByTokenInput.tokenAcesso
