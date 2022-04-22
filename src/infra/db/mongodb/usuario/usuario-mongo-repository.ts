@@ -18,7 +18,7 @@ export class UsuarioMongoRepository implements AddUsuarioRepository, LoadUsuario
 
   async update (updateUsuarioAccessTokenInput: UpdateUsuarioAccessTokenInput): Promise<void> {
     const usuarioCollection = await MongoHelper.getCollection('usuarios')
-    await usuarioCollection.update({
+    await usuarioCollection.updateOne({
       _id: updateUsuarioAccessTokenInput.id
     }, {
       $set: {

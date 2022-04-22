@@ -1,5 +1,5 @@
 import { AddUsuarioRepository, LoadUsuarioByEmailRepository, LoadUsuarioByTokenRepository, UpdateUsuarioAccessTokenRepository } from '@/data/protocols/db'
-import { AddUsuarioInput, LoadUsuarioOutput, LoadUsuarioByEmailInput, LoadUsuarioByTokenInput, UpdateUsuarioAccessTokenInput } from '@/domain/usecases'
+import { AddUsuarioInput, LoadUsuarioOutput, LoadUsuarioByEmailInput, LoadUsuarioByTokenInput, UpdateUsuarioAccessTokenInput, LoadUsuarioByToken, LoadUsuarioByTokenOutput } from '@/domain/usecases'
 
 import { mockUsuarioModel } from '@/tests/data/mocks/models/mock-usuario'
 
@@ -44,5 +44,17 @@ export class UpdateUsuarioAccessTokenRepositorySpy implements UpdateUsuarioAcces
     this.id = updateUsuarioAccessTokenInput.id
     this.tokenAcesso = updateUsuarioAccessTokenInput.tokenAcesso
     return Promise.resolve()
+  }
+}
+
+export class LoadUsuarioByTokenSpy implements LoadUsuarioByToken {
+  usuarioModel = mockUsuarioModel()
+  tokenAcesso!: string
+  role?: string
+
+  async load (loadUsuarioByTokenInput: LoadUsuarioByTokenInput): Promise<LoadUsuarioByTokenOutput | null> {
+    this.tokenAcesso = loadUsuarioByTokenInput.tokenAcesso
+    this.role = loadUsuarioByTokenInput.role
+    return Promise.resolve(this.usuarioModel)
   }
 }
