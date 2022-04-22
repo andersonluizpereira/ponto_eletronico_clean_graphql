@@ -4,14 +4,14 @@ import { Usuario } from '@/domain/entities'
 import { AuthenticationInput, UsuarioAuthenticationOutput } from '@/domain/usecases/usuario/authentication-usuario/authentication-usuario'
 
 const obterCamposUsuario = new Usuario(
-  faker.random.uuid(),
+  faker.datatype.uuid(),
   faker.name.findName(),
   '839.435.452-10',
   '286833931',
   new Date(faker.date.past()),
   faker.phone.phoneNumber(),
   'any_token_acesso',
-  faker.random.boolean(),
+  faker.datatype.boolean(),
   faker.internet.email(),
   faker.internet.password()).obterCampos()
 
