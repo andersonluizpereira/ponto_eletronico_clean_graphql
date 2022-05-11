@@ -1,8 +1,8 @@
 import { AddUsuarioRepository, LoadUsuarioByEmailRepository, LoadUsuarioByTokenRepository, UpdateUsuarioAccessTokenRepository } from '@/data/protocols/db'
-import { AddUsuarioInput, LoadUsuarioOutput, LoadUsuarioByEmailInput, LoadUsuarioByTokenInput, UpdateUsuarioAccessTokenInput, LoadUsuarioByToken, LoadUsuarioByTokenOutput } from '@/domain/usecases'
+import { AddUsuarioInput, LoadUsuarioOutput, LoadUsuarioByEmailInput, LoadUsuarioByTokenInput, UpdateUsuarioAccessTokenInput, LoadUsuarioByToken, LoadUsuarioByTokenOutput, UsuarioAuthentication, AuthenticationInput, UsuarioAuthenticationOutput } from '@/domain/usecases'
 
 import { mockUsuarioModel } from '@/tests/data/mocks/models/mock-usuario'
-
+import faker from 'faker'
 export class AddUsuarioRepositorySpy implements AddUsuarioRepository {
   usuarioModel = mockUsuarioModel()
   addUsuarioParams: AddUsuarioInput | undefined
@@ -56,5 +56,17 @@ export class LoadUsuarioByTokenSpy implements LoadUsuarioByToken {
     this.tokenAcesso = loadUsuarioByTokenInput.tokenAcesso
     this.role = loadUsuarioByTokenInput.role
     return Promise.resolve(this.usuarioModel)
+  }
+}
+export class AuthenticationSpy implements UsuarioAuthentication {
+  authenticationInput!: AuthenticationInput | null
+  authenticationModel = {
+    tokenAcesso: faker.datatype.uuid(),
+    nome: faker.name.findName()
+  }
+
+  async auth (authenticationInput: AuthenticationInput): Promise<UsuarioAuthenticationOutput | null> {
+    this.authenticationInput = authenticationInput
+    return this.authenticationModel
   }
 }
