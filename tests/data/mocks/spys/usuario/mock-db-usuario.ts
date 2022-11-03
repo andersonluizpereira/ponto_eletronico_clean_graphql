@@ -1,5 +1,5 @@
 import { AddUsuarioRepository, LoadUsuarioByEmailRepository, LoadUsuarioByTokenRepository, UpdateUsuarioAccessTokenRepository } from '@/data/protocols/db'
-import { AddUsuarioInput, LoadUsuarioOutput, LoadUsuarioByEmailInput, LoadUsuarioByTokenInput, UpdateUsuarioAccessTokenInput, LoadUsuarioByToken, LoadUsuarioByTokenOutput, UsuarioAuthentication, AuthenticationInput, UsuarioAuthenticationOutput } from '@/domain/usecases'
+import { AddUsuarioInput, LoadUsuarioOutput, LoadUsuarioByEmailInput, LoadUsuarioByTokenInput, UpdateUsuarioAccessTokenInput, LoadUsuarioByToken, LoadUsuarioByTokenOutput, UsuarioAuthentication, AuthenticationInput, UsuarioAuthenticationOutput, IncluirUsuario } from '@/domain/usecases'
 
 import { mockUsuarioModel } from '@/tests/data/mocks/models/mock-usuario'
 import faker from 'faker'
@@ -10,6 +10,16 @@ export class AddUsuarioRepositorySpy implements AddUsuarioRepository {
   async add (data: AddUsuarioInput): Promise<AddUsuarioInput | null> {
     this.addUsuarioParams = data
     return Promise.resolve(this.usuarioModel)
+  }
+}
+
+export class IncluirUsuarioSpy implements IncluirUsuario {
+  usuarioModel = mockUsuarioModel()
+  addUsuarioParams: AddUsuarioInput | undefined
+
+  async add (usuario: AddUsuarioInput): Promise<AddUsuarioInput> {
+    this.addUsuarioParams = usuario
+    return Promise.resolve(this.usuarioModel?.obterCampos())
   }
 }
 export class LoadUsuarioByEmailRepositorySpy implements LoadUsuarioByEmailRepository {
