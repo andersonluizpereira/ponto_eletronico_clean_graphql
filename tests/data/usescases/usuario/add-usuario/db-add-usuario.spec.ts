@@ -11,7 +11,7 @@ type SutTypes = {
 
 const makeSut = (): SutTypes => {
   const loadUsuarioByEmailRepositorySpy = new LoadUsuarioByEmailRepositorySpy()
-  loadUsuarioByEmailRepositorySpy.usuarioModel = null
+  loadUsuarioByEmailRepositorySpy.usuarioModel = null as any
   const hasherSpy = new HasherSpy()
   const addUsuarioRepositorySpy = new AddUsuarioRepositorySpy()
   const sut = new DbAddUsuario(hasherSpy, addUsuarioRepositorySpy, loadUsuarioByEmailRepositorySpy)

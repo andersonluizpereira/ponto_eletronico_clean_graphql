@@ -8,5 +8,5 @@ export type LoadUsuarioByTokenInput = {
 }
 
 export interface LoadUsuarioByToken {
-  loadByToken: (loadUsuarioByTokenInput: LoadUsuarioByTokenInput) => Promise<LoadUsuarioByTokenOutput | null>
+  loadByToken: (loadUsuarioByTokenInput: LoadUsuarioByTokenInput) => Promise<LoadUsuarioByTokenOutput>
 }

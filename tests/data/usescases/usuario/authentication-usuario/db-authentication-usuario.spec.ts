@@ -1,7 +1,6 @@
 import { DbUsuarioAuthentication } from '@/data/usescases'
 import { EncrypterSpy, HashComparerSpy, UpdateUsuarioAccessTokenRepositorySpy, LoadUsuarioByEmailRepositorySpy } from '@/tests/data/mocks/spys'
 import { mockAuthenticationIntput, throwError } from '@/tests/data/mocks/models'
-import { UsuarioAuthenticationOutput } from '@/domain/usecases'
 
 type SutTypes = {
   sut: DbUsuarioAuthentication
@@ -48,14 +47,14 @@ describe('DbUsuarioAuthentication UseCase', () => {
 
   test('Should return null if LoadUsuarioByEmailRepository returns null', async () => {
     const { sut, loadUsuarioByEmailRepositorySpy } = makeSut()
-    loadUsuarioByEmailRepositorySpy.usuarioModel = null
+    loadUsuarioByEmailRepositorySpy.usuarioModel = null as any
     const model = await sut.auth(mockAuthenticationIntput())
     expect(model).toBeNull()
   })
 
   test('Should return null if LoadAccountByEmailRepository returns null', async () => {
     const { sut, loadUsuarioByEmailRepositorySpy } = makeSut()
-    loadUsuarioByEmailRepositorySpy.usuarioModel = null
+    loadUsuarioByEmailRepositorySpy.usuarioModel = null as any
     const model = await sut.auth(mockAuthenticationIntput())
     expect(model).toBeNull()
   })
@@ -97,7 +96,7 @@ describe('DbUsuarioAuthentication UseCase', () => {
 
   test('Should return an AuthenticationModel on success', async () => {
     const { sut, encrypterSpy, loadUsuarioByEmailRepositorySpy } = makeSut()
-    const usuarioAuthenticationOutput = await sut.auth(mockAuthenticationIntput()) as UsuarioAuthenticationOutput
+    const usuarioAuthenticationOutput = await sut.auth(mockAuthenticationIntput())
     expect(usuarioAuthenticationOutput.tokenAcesso).toBe(encrypterSpy.ciphertext)
     expect(usuarioAuthenticationOutput.nome).toBe(loadUsuarioByEmailRepositorySpy.usuarioModel?.nome)
   })

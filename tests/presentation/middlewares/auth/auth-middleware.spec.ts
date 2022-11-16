@@ -43,7 +43,7 @@ describe('Auth Middleware', () => {
 
   test('Should return 403 if LoadAccountByToken returns null', async () => {
     const { sut, loadUsuarioByTokenSpy } = makeSut()
-    loadUsuarioByTokenSpy.usuarioModel = null
+    loadUsuarioByTokenSpy.usuarioModel = null as any
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()))
   })

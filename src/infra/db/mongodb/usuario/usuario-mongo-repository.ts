@@ -4,15 +4,15 @@ import { AddUsuarioInput, LoadUsuarioOutput, LoadUsuarioByEmailInput, LoadUsuari
 import { MongoHelper } from '@/infra/db/mongodb/helpers'
 
 export class UsuarioMongoRepository implements AddUsuarioRepository, LoadUsuarioByEmailRepository, UpdateUsuarioAccessTokenRepository, LoadUsuarioByTokenRepository {
-  async add (addUsuarioInput: AddUsuarioInput): Promise<LoadUsuarioOutput | null> {
+  async add (addUsuarioInput: AddUsuarioInput): Promise<LoadUsuarioOutput> {
     const usuarioCollection = await MongoHelper.getCollection('usuarios')
     const result = await usuarioCollection.insertOne(addUsuarioInput)
     return MongoHelper.map(result.ops[0])
   }
 
-  async loadByEmail (loadUsuarioByEmailInput: LoadUsuarioByEmailInput): Promise<LoadUsuarioByEmailOutput | null> {
+  async loadByEmail (loadUsuarioByEmailInput: LoadUsuarioByEmailInput): Promise<LoadUsuarioByEmailOutput> {
     const accountCollection = await MongoHelper.getCollection('usuarios')
-    const usuario = await accountCollection.findOne(loadUsuarioByEmailInput)
+    const usuario = await accountCollection.findOne({ email: loadUsuarioByEmailInput.email })
     return usuario && MongoHelper.map(usuario)
   }
 
@@ -27,7 +27,7 @@ export class UsuarioMongoRepository implements AddUsuarioRepository, LoadUsuario
     })
   }
 
-  async loadByToken ({ tokenAcesso, role }: LoadUsuarioByTokenInput): Promise<LoadUsuarioOutput | null> {
+  async loadByToken ({ tokenAcesso, role }: LoadUsuarioByTokenInput): Promise<LoadUsuarioOutput> {
     const usuarioCollection = await MongoHelper.getCollection('usuarios')
     const usuario = await usuarioCollection.findOne({
       tokenAcesso,

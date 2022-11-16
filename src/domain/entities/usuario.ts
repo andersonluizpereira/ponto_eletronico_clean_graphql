@@ -31,12 +31,12 @@ export class Usuario {
   oUsuarioFazAniversarioHoje (): boolean {
     const hoje = new Date()
     const aniversario = this.dataNascimento
-    return hoje.getDate() === aniversario!.getDate() &&
-      hoje.getMonth() === aniversario!.getMonth()
+    return hoje.getDate() === aniversario?.getDate() && hoje.getMonth() === aniversario?.getMonth()
   }
 
   oUsuarioPossuiUmRGValido (): boolean {
-    return ((this.rg!).length > 0) && this.rg!.length === 9
+    const documento = this.rg as any
+    return (documento.length > 0 && documento.length === 9)
   }
 
   enviarMensagemDeParabens (): String | undefined {
@@ -46,7 +46,8 @@ export class Usuario {
   }
 
   oUsuarioPossuiUmTelefoneValido (): boolean {
-    return ((this.telefone!).length > 0) && this.telefone!.length === 11
+    const telefoneAValidar = this.telefone as any
+    return (telefoneAValidar.length > 0 && telefoneAValidar.length === 11)
   }
 
   obterCampos (): any {

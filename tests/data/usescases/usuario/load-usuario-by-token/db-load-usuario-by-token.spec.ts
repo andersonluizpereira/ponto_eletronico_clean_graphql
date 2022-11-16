@@ -58,7 +58,7 @@ describe('DbLoadUsuarioByToken Usecase', () => {
 
   test('Should return null if LoadUsuarioByTokenRepository returns null', async () => {
     const { sut, loadUsuarioByTokenRepositorySpy } = makeSut()
-    loadUsuarioByTokenRepositorySpy.usuarioModel = null
+    loadUsuarioByTokenRepositorySpy.usuarioModel = null as any
     const usuario = await sut.loadByToken(loadUsuarioByTokenInput)
     expect(usuario).toBeNull()
   })

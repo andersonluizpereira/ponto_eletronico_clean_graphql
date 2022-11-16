@@ -1,4 +1,4 @@
-import { AddUsuarioInput, IncluirUsuario, UsuarioAuthentication } from '@/domain/usecases'
+import { IncluirUsuario, UsuarioAuthentication } from '@/domain/usecases'
 import { EmailInUseError, PasswordsDoNotMatch } from '@/presentation/errors'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers'
 import { Controller, HttpRequest, HttpResponse, Validation } from '@/presentation/protocols'
@@ -16,7 +16,7 @@ export class IncluirUsuarioController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const error = this.validation.validate(httpRequest)
 
       if (error) {
         return badRequest(error)
@@ -33,13 +33,13 @@ export class IncluirUsuarioController implements Controller {
         email,
         password,
         passwordConfirmation
-      } = httpRequest.body
+      } = httpRequest as any
 
       if (password !== passwordConfirmation) {
         return badRequest(new PasswordsDoNotMatch())
       }
 
-      const addUsuarioInput = {
+      const account = await this.incluirUsuario.add({
         nome,
         cpf,
         rg,
@@ -49,20 +49,17 @@ export class IncluirUsuarioController implements Controller {
         estaAtivo,
         email,
         password
-      } as AddUsuarioInput
-
-      const account = await this.incluirUsuario.add(addUsuarioInput)
+      } as any)
 
       if (!account) {
         return forbidden(new EmailInUseError())
       }
 
-      const usuarioAuthenticationModel = await this.usuarioAuthentication.auth({
-        email,
-        password
+      return ok({
+        tokenAcesso: account.tokenAcesso,
+        nome: account.nome,
+        email: account.email
       })
-
-      return ok(usuarioAuthenticationModel)
     } catch (error) {
       return serverError(error as Error)
     }

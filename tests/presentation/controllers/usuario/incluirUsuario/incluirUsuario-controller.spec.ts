@@ -1,37 +1,23 @@
 import { IncluirUsuarioController } from '@/presentation/controllers'
 import { throwError } from '@/tests/data/mocks/models'
-import { EmailInUseError, MissingParamError, ServerError } from '@/presentation/errors'
+import { EmailInUseError, MissingParamError, PasswordsDoNotMatch, ServerError } from '@/presentation/errors'
 import { badRequest, forbidden, ok, serverError } from '@/presentation/helpers'
 import { HttpRequest } from '@/presentation/protocols'
 import faker from 'faker'
 import { AuthenticationSpy, IncluirUsuarioSpy, ValidationSpy } from '@/tests/data/mocks/spys'
-import { Usuario } from '@/domain/entities'
-
-const password = faker.internet.password()
-const obterCamposUsuario = new Usuario(
-  faker.datatype.uuid(),
-  faker.name.findName(),
-  '839.435.452-10',
-  '286833931',
-  new Date(faker.date.past()),
-  faker.phone.phoneNumber(),
-  'any_token_acesso',
-  faker.datatype.boolean(),
-  faker.internet.email(),
-  password).obterCampos()
 
 const mockRequest = (): HttpRequest => {
   return {
     body: {
-      nome: 'Tami Bartell',
-      cpf: '839.435.452-10',
-      rg: '286833931',
-      dataNascimento: '1985-02-22T19:15:10.856Z',
-      telefone: '5511965928203',
-      estaAtivo: false,
+      nome: 'Anderson P',
+      cpf: '322.821.668-33',
+      rg: '11.111.111-1',
+      dataNascimento: '1985-02-22',
+      telefone: '+5511965928203',
+      tokenAcesso: '1',
       email: 'andy2903.alp@gmail.com',
-      password: password,
-      passwordConfirmation: password
+      password: '12345678',
+      passwordConfirmation: '12345678'
     }
   }
 }
@@ -57,7 +43,7 @@ const makeSut = (): SutTypes => {
 }
 
 describe('Incluir Usuario Controller', () => {
-  test.only('Should return 500 if AddAccount throws', async () => {
+  test('Should return 500 if AddAccount throws', async () => {
     const { sut, incluirUsuarioSpy } = makeSut()
     jest.spyOn(incluirUsuarioSpy, 'add').mockImplementationOnce(throwError)
     const httpResponse = await sut.handle(mockRequest())
@@ -65,33 +51,36 @@ describe('Incluir Usuario Controller', () => {
   })
 
   test('Should call Incluir Usuario with correct values', async () => {
-    const { sut, incluirUsuarioSpy } = makeSut()
     const httpRequest = mockRequest()
-    await sut.handle(httpRequest)
-    expect(incluirUsuarioSpy.addUsuarioParams).toEqual({
-      nome: httpRequest.body.nome,
-      email: httpRequest.body.email,
-      password: httpRequest.body.password
-    })
+    const { sut, incluirUsuarioSpy } = makeSut()
+    await sut.handle(httpRequest.body)
+    expect(ok(incluirUsuarioSpy.addUsuarioParams)).toMatchObject(ok({
+      tokenAcesso: httpRequest.body.tokenAcesso,
+      nome: httpRequest.body.nome
+    }))
   })
 
   test('Should return 403 if Incluir Usuario returns null', async () => {
     const { sut, incluirUsuarioSpy } = makeSut()
-    incluirUsuarioSpy.usuarioModel = null
+    jest.spyOn(incluirUsuarioSpy, 'add').mockImplementationOnce(() => null as any)
+    incluirUsuarioSpy.usuarioModel = null as any
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
 
-  test('Should return 200 if valid data is provided', async () => {
-    const { sut, authenticationSpy } = makeSut()
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(ok(authenticationSpy.authenticationModel))
+  test('Should return 400 if invalid password returns null', async () => {
+    const { sut } = makeSut()
+    const httpRequest = mockRequest()
+    httpRequest.body.passwordConfirmation = 'invalid_password'
+    const httpResponse = await sut.handle(httpRequest.body)
+    const error = new PasswordsDoNotMatch()
+    expect(httpResponse.body).toEqual(error)
   })
 
   test('Should call Validation with correct value', async () => {
     const { sut, validationSpy } = makeSut()
     const httpRequest = mockRequest()
-    await sut.handle(httpRequest)
+    await sut.handle(httpRequest.body)
     expect(validationSpy.input).toEqual(httpRequest.body)
   })
 
@@ -100,22 +89,5 @@ describe('Incluir Usuario Controller', () => {
     validationSpy.error = new MissingParamError(faker.random.word())
     const httpResponse = await sut.handle(mockRequest())
     expect(httpResponse).toEqual(badRequest(validationSpy.error))
-  })
-
-  test('Should call Authentication with correct values', async () => {
-    const { sut, authenticationSpy } = makeSut()
-    const httpRequest = mockRequest()
-    await sut.handle(httpRequest)
-    expect(authenticationSpy.authenticationInput).toEqual({
-      email: httpRequest.body.email,
-      password: httpRequest.body.password
-    })
-  })
-
-  test('Should return 500 if Authentication throws', async () => {
-    const { sut, authenticationSpy } = makeSut()
-    jest.spyOn(authenticationSpy, 'auth').mockImplementationOnce(throwError)
-    const httpResponse = await sut.handle(mockRequest())
-    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })

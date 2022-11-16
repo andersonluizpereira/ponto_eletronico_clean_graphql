@@ -1,6 +1,6 @@
 import { Encrypter, HashComparer } from '@/data/protocols/criptography'
 import { LoadUsuarioByEmailRepository, UpdateUsuarioAccessTokenRepository } from '@/data/protocols/db'
-import { AuthenticationInput, UpdateUsuarioAccessTokenInput, UsuarioAuthentication, UsuarioAuthenticationOutput } from '@/domain/usecases'
+import { AuthenticationInput, UsuarioAuthentication, UsuarioAuthenticationOutput } from '@/domain/usecases'
 
 export class DbUsuarioAuthentication implements UsuarioAuthentication {
   constructor (
@@ -10,7 +10,7 @@ export class DbUsuarioAuthentication implements UsuarioAuthentication {
     private readonly updateUsuarioAccessTokenRepository: UpdateUsuarioAccessTokenRepository
   ) {}
 
-  async auth (authenticationInput: AuthenticationInput): Promise<UsuarioAuthenticationOutput | null> {
+  async auth (authenticationInput: AuthenticationInput): Promise<UsuarioAuthenticationOutput> {
     const usuario = await this.loadUsuarioByEmailRepository.loadByEmail(authenticationInput)
     if (usuario) {
       const { id, nome } = usuario as any
@@ -21,6 +21,6 @@ export class DbUsuarioAuthentication implements UsuarioAuthentication {
         return { tokenAcesso, nome }
       }
     }
-    return null
+    return null as any
   }
 }
